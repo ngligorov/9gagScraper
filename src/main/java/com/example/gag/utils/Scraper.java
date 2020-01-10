@@ -17,8 +17,8 @@ import com.google.gson.Gson;
 
 @Component
 public class Scraper {
- 
-	public String getBody() {
+
+	public List<Post> getBody() {
 		String uri = "https://9gag.com/v1/group-posts/group/default/type/hot?fbclid=IwAR0p_XoSZOgwm51s7I1d72KX4_x8CQ3b8UGTL1XreKzpU5-rbTQNfgLOBRw";
 		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<String> entity = new HttpEntity<String>("body");
@@ -29,21 +29,37 @@ public class Scraper {
 		post = post.substring(11, post.length() - 1);
 		post = post.split("featuredAds")[0];
 		post = post.substring(0, post.length() - 2);
-		
-//		List<Post> type = new ArrayList<>();
-//		Gson gson = new Gson();
-//		List<Post> posts = gson.fromJson(post, type.getClass());
-//		System.out.println(posts.size());
-		post = post.split("\"id\"")[1];
-		post = "{\"id\"" + post.substring(0, post.length() - 2);
-		Gson gson = new Gson();
-		Post object = gson.fromJson(post, Post.class);
-		
-		String imgUrl = post.split("\"url\"")[2];
-		imgUrl = imgUrl.split("\"")[1];
 
-		object.setImageUrl(imgUrl);
-		System.out.println(object.toString());
-		return post;
+//		post = post.split("\"id\"")[2];
+//		post = "{\"id\"" + post.substring(0, post.length() - 2);
+//		Gson gson = new Gson();
+//		Post object = gson.fromJson(post, Post.class);
+//		
+//		String imgUrl = post.split("\"url\"")[2];
+//		imgUrl = imgUrl.split("\"")[1];
+//
+//		object.setImageUrl(imgUrl);
+//		System.out.println(object.toString());
+
+		List<Post> actualPosts = new ArrayList<>();
+		String[] posts = post.split("\"id\"");
+
+		for (int i = 1; i < posts.length - 1; i++) {
+			System.out.println("AAAAAAA");
+			posts[i] = "{\"id\"" + posts[i].substring(0, posts[i].length() - 2);
+
+			Gson gson = new Gson();
+			Post object = gson.fromJson(posts[i], Post.class);
+			
+			String imgUrl = posts[i].split("\"url\"")[2];
+			imgUrl = imgUrl.split("\"")[1];
+
+			object.setImageUrl(imgUrl);
+			
+			actualPosts.add(object);
+			System.out.println(object.toString());
+		}
+
+		return actualPosts;
 	}
 }

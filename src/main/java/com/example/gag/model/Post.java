@@ -29,7 +29,7 @@ public class Post {
 	private String sourceDomain;
 	private String sourceUrl;
 	private Integer commentsCount;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private PostSection postSection;
 	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<Tag> tags = null;

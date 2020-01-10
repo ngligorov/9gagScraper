@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.gag.model.Post;
+import com.example.gag.service.PostService;
 import com.example.gag.utils.Scraper;
 
 @RestController
@@ -14,9 +16,16 @@ public class getPostsController {
 
 	@Autowired
 	Scraper scraper;
-	
+
+	@Autowired
+	PostService service;
+
 	@RequestMapping(value = "/body", method = RequestMethod.GET, produces = "application/json")
 	private ResponseEntity<?> scrapeBody() {
-		return ResponseEntity.ok(scraper.getBody());
+
+		for(Post post : scraper.getBody())
+			service.save(post);
+		
+		return ResponseEntity.ok("proslo bajo moj");
 	}
 }
