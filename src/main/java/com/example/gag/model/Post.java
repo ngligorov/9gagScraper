@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -31,8 +32,8 @@ public class Post {
 	private Integer commentsCount;
 	@OneToOne(cascade = CascadeType.ALL)
 	private PostSection postSection;
-	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
-	private List<Tag> tags = null;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Tag> tags;
 	private String descriptionHtml;
 
 	public Post() {

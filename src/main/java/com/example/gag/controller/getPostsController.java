@@ -1,12 +1,16 @@
 package com.example.gag.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.gag.model.ActualPost;
 import com.example.gag.model.Post;
+import com.example.gag.service.ActualPostService;
 import com.example.gag.service.PostService;
 import com.example.gag.utils.Scraper;
 
@@ -15,17 +19,18 @@ import com.example.gag.utils.Scraper;
 public class getPostsController {
 
 	@Autowired
-	Scraper scraper;
-
-	@Autowired
-	PostService service;
+	ActualPostService service;
 
 	@RequestMapping(value = "/body", method = RequestMethod.GET, produces = "application/json")
 	private ResponseEntity<?> scrapeBody() {
 
-		for(Post post : scraper.getBody())
-			service.save(post);
-		
-		return ResponseEntity.ok("proslo bajo moj");
+		List<Post> posts = Scraper.getPosts("fbclid=IwAR2OQoU7pP-icBn1DF3VQy39i5OugFq2sYyGgxWYhVU3SQ8aUTHT6YASg-0");
+
+		System.out.println(posts.size());
+
+		for (Post post : posts)
+			service.save(new ActualPost(post));
+
+		return ResponseEntity.ok(posts);
 	}
 }

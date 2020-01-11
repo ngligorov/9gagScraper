@@ -22,19 +22,16 @@ public class Tag {
 	private String key;
 	@Column(name = "_url")
 	private String url;
-	@ManyToOne
-	private Post post;
 
 	public Tag() {
 		super();
 	}
 
-	public Tag(int id, String key, String url, Post post) {
+	public Tag(int id, String key, String url) {
 		super();
 		this.id = id;
 		this.key = key;
 		this.url = url;
-		this.post = post;
 	}
 
 	public int getId() {
@@ -59,14 +56,6 @@ public class Tag {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public Post getPost() {
-		return post;
-	}
-
-	public void setPost(Post post) {
-		this.post = post;
 	}
 
 }

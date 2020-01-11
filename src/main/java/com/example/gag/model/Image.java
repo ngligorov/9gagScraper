@@ -12,7 +12,6 @@ import javax.persistence.Table;
 public class Image {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private Integer width;
 	private Integer height;
