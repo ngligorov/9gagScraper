@@ -1,9 +1,12 @@
 package com.example.gag.utils;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.BasicJsonParser;
 import org.springframework.boot.json.JsonParser;
@@ -69,23 +72,18 @@ public class Scraper {
 		return actualPosts;
 	}
 
-	public static List<Post> getPosts(String startUrl) {
+	public static List<Post> getPosts(String startUrl) throws IOException {
 		String firstPartUrl = "https://9gag.com/v1/group-posts/group/default/type/hot?";
 		List<Post> actualPosts = new ArrayList<>();
 		String secondPartUrl = "";
 
-		for (int j = 0; j <= 25; j++) {
+		for (int j = 0; j <= 150; j++) {
 			String url = firstPartUrl + secondPartUrl;
-			
+
 			System.out.println(url);
-			
-			RestTemplate restTemplate = new RestTemplate();
-			ResponseEntity<String> result = restTemplate.getForEntity(url, String.class);
 
-			System.out.println(result.getStatusCode());
-
-			String post = "";
-			post = result.getBody();
+			Document document = Jsoup.connect(firstPartUrl + secondPartUrl).ignoreContentType(true).get();
+			String post = document.body().wholeText();
 			post = post.split("data")[1];
 			post = post.substring(11, post.length() - 1);
 			post = post.split("featuredAds")[0];
@@ -93,25 +91,28 @@ public class Scraper {
 
 			String[] posts = post.split("\"id\"");
 
-			for (int i = 1; i < posts.length - 1; i++) {
+			for (int i = 1; i <= 7; i++) {
 				posts[i] = "{\"id\"" + posts[i].substring(0, posts[i].length() - 2);
 
-				Gson gson = new Gson();
-				Post object = gson.fromJson(posts[i], Post.class);
+				System.out.println(posts[i]);
 
-				String imgUrl = posts[i].split("\"url\"")[2];
-				imgUrl = imgUrl.split("\"")[1];
+				try {
+					Gson gson = new Gson();
+					Post object = gson.fromJson(posts[i], Post.class);
 
-				object.setImageUrl(imgUrl);
+					String imgUrl = posts[i].split("\"url\"")[2];
+					imgUrl = imgUrl.split("\"")[1];
 
-				actualPosts.add(object);
+					object.setImageUrl(imgUrl);
+
+					actualPosts.add(object);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 			}
 
-			String nextCursor = result.getBody().split("\"nextCursor\"")[1];
+			String nextCursor = document.body().wholeText().split("\"nextCursor\"")[1];
 			secondPartUrl = nextCursor.split("\"")[1];
-
-			restTemplate = null;
-			result = null;
 		}
 
 		return actualPosts;

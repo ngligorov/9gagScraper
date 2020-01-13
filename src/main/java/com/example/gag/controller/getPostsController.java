@@ -1,5 +1,6 @@
 package com.example.gag.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class getPostsController {
 	ActualPostService service;
 
 	@RequestMapping(value = "/body", method = RequestMethod.GET, produces = "application/json")
-	private ResponseEntity<?> scrapeBody() {
+	private ResponseEntity<?> scrapeBody() throws IOException {
 
 		List<Post> posts = Scraper.getPosts("fbclid=IwAR2OQoU7pP-icBn1DF3VQy39i5OugFq2sYyGgxWYhVU3SQ8aUTHT6YASg-0");
 
