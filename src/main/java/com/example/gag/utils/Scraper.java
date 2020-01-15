@@ -77,42 +77,46 @@ public class Scraper {
 		List<Post> actualPosts = new ArrayList<>();
 		String secondPartUrl = "";
 
-		for (int j = 0; j <= 150; j++) {
+		for (int j = 0; j <= 500; j++) {
 			String url = firstPartUrl + secondPartUrl;
 
 			System.out.println(url);
 
-			Document document = Jsoup.connect(firstPartUrl + secondPartUrl).ignoreContentType(true).get();
-			String post = document.body().wholeText();
-			post = post.split("data")[1];
-			post = post.substring(11, post.length() - 1);
-			post = post.split("featuredAds")[0];
-			post = post.substring(0, post.length() - 2);
+			try {
+				Document document = Jsoup.connect(firstPartUrl + secondPartUrl).ignoreContentType(true).get();
+				String post = document.body().wholeText();
+				post = post.split("data")[1];
+				post = post.substring(11, post.length() - 1);
+				post = post.split("featuredAds")[0];
+				post = post.substring(0, post.length() - 2);
 
-			String[] posts = post.split("\"id\"");
+				String[] posts = post.split("\"id\"");
 
-			for (int i = 1; i <= 7; i++) {
-				posts[i] = "{\"id\"" + posts[i].substring(0, posts[i].length() - 2);
+				for (int i = 1; i <= posts.length - 2; i++) {
+					posts[i] = "{\"id\"" + posts[i].substring(0, posts[i].length() - 2);
 
-				System.out.println(posts[i]);
+					System.out.println(posts[i]);
 
-				try {
-					Gson gson = new Gson();
-					Post object = gson.fromJson(posts[i], Post.class);
+					try {
+						Gson gson = new Gson();
+						Post object = gson.fromJson(posts[i], Post.class);
 
-					String imgUrl = posts[i].split("\"url\"")[2];
-					imgUrl = imgUrl.split("\"")[1];
+						String imgUrl = posts[i].split("\"url\"")[2];
+						imgUrl = imgUrl.split("\"")[1];
 
-					object.setImageUrl(imgUrl);
+						object.setImageUrl(imgUrl);
 
-					actualPosts.add(object);
-				} catch (Exception e) {
-					// TODO: handle exception
+						actualPosts.add(object);
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
 				}
-			}
 
-			String nextCursor = document.body().wholeText().split("\"nextCursor\"")[1];
-			secondPartUrl = nextCursor.split("\"")[1];
+				String nextCursor = document.body().wholeText().split("\"nextCursor\"")[1];
+				secondPartUrl = nextCursor.split("\"")[1];
+			} catch (Exception e) {
+
+			}
 		}
 
 		return actualPosts;
