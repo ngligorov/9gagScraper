@@ -1,0 +1,1 @@
+JSON scraper for 9gag posts

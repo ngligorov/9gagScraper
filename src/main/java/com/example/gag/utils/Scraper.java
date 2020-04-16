@@ -27,51 +27,6 @@ public class Scraper {
 	@Autowired
 	ActualPostService service;
 
-	public List<Post> getBody() {
-		String uri = "https://9gag.com/v1/group-posts/group/default/type/hot?fbclid=IwAR0p_XoSZOgwm51s7I1d72KX4_x8CQ3b8UGTL1XreKzpU5-rbTQNfgLOBRw";
-		RestTemplate restTemplate = new RestTemplate();
-		HttpEntity<String> entity = new HttpEntity<String>("body");
-		ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
-
-		String post = result.getBody();
-		post = post.split("data")[1];
-		post = post.substring(11, post.length() - 1);
-		post = post.split("featuredAds")[0];
-		post = post.substring(0, post.length() - 2);
-
-//		post = post.split("\"id\"")[2];
-//		post = "{\"id\"" + post.substring(0, post.length() - 2);
-//		Gson gson = new Gson();
-//		Post object = gson.fromJson(post, Post.class);
-//		
-//		String imgUrl = post.split("\"url\"")[2];
-//		imgUrl = imgUrl.split("\"")[1];
-//
-//		object.setImageUrl(imgUrl);
-//		System.out.println(object.toString());
-
-		List<Post> actualPosts = new ArrayList<>();
-		String[] posts = post.split("\"id\"");
-
-		for (int i = 1; i < posts.length - 1; i++) {
-			System.out.println("AAAAAAA");
-			posts[i] = "{\"id\"" + posts[i].substring(0, posts[i].length() - 2);
-
-			Gson gson = new Gson();
-			Post object = gson.fromJson(posts[i], Post.class);
-
-			String imgUrl = posts[i].split("\"url\"")[2];
-			imgUrl = imgUrl.split("\"")[1];
-
-			object.setImageUrl(imgUrl);
-
-			actualPosts.add(object);
-			System.out.println(object.toString());
-		}
-
-		return actualPosts;
-	}
-
 	public static List<Post> getPosts(String startUrl) throws IOException {
 		String firstPartUrl = "https://9gag.com/v1/group-posts/group/default/type/hot?";
 		List<Post> actualPosts = new ArrayList<>();
@@ -83,8 +38,9 @@ public class Scraper {
 			System.out.println(url);
 
 			try {
-				Document document = Jsoup.connect(firstPartUrl + secondPartUrl).ignoreContentType(true).get();
+				Document document = Jsoup.connect(firstPartUrl + secondPartUrl).ignoreContentType(true).userAgent("Mozilla").ignoreHttpErrors(true).get();
 				String post = document.body().wholeText();
+				System.out.println(post);
 				post = post.split("data")[1];
 				post = post.substring(11, post.length() - 1);
 				post = post.split("featuredAds")[0];
@@ -109,13 +65,15 @@ public class Scraper {
 						actualPosts.add(object);
 					} catch (Exception e) {
 						// TODO: handle exception
+						e.printStackTrace();
 					}
 				}
 
 				String nextCursor = document.body().wholeText().split("\"nextCursor\"")[1];
 				secondPartUrl = nextCursor.split("\"")[1];
+				System.out.println(secondPartUrl);
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		}
 
