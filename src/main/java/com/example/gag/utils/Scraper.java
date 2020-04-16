@@ -22,23 +22,24 @@ import com.example.gag.model.Post;
 import com.example.gag.service.ActualPostService;
 import com.google.gson.Gson;
 
+@Component
 public class Scraper {
 
 	@Autowired
 	ActualPostService service;
 
-	public static List<Post> getPosts(String startUrl) throws IOException {
+	public List<Post> getPosts(String startUrl) throws IOException {
 		String firstPartUrl = "https://9gag.com/v1/group-posts/group/default/type/hot?";
 		List<Post> actualPosts = new ArrayList<>();
 		String secondPartUrl = "";
 
-		for (int j = 0; j <= 500; j++) {
+		for (int j = 0; j <= 2000; j++) {
 			String url = firstPartUrl + secondPartUrl;
 
-			System.out.println(url);
+//			System.out.println(url);
 
 			try {
-				Document document = Jsoup.connect(firstPartUrl + secondPartUrl).ignoreContentType(true).userAgent("Mozilla").ignoreHttpErrors(true).get();
+				Document document = Jsoup.connect(firstPartUrl + secondPartUrl).ignoreContentType(true).userAgent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)").ignoreHttpErrors(true).referrer("www.google.com").get();
 				String post = document.body().wholeText();
 				System.out.println(post);
 				post = post.split("data")[1];
@@ -51,7 +52,7 @@ public class Scraper {
 				for (int i = 1; i <= posts.length - 2; i++) {
 					posts[i] = "{\"id\"" + posts[i].substring(0, posts[i].length() - 2);
 
-					System.out.println(posts[i]);
+//					System.out.println(posts[i]);
 
 					try {
 						Gson gson = new Gson();
@@ -62,6 +63,7 @@ public class Scraper {
 
 						object.setImageUrl(imgUrl);
 
+						service.save(new ActualPost(object));
 						actualPosts.add(object);
 					} catch (Exception e) {
 						// TODO: handle exception
@@ -71,7 +73,7 @@ public class Scraper {
 
 				String nextCursor = document.body().wholeText().split("\"nextCursor\"")[1];
 				secondPartUrl = nextCursor.split("\"")[1];
-				System.out.println(secondPartUrl);
+//				System.out.println(secondPartUrl);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
