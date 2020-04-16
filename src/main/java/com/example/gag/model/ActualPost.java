@@ -61,4 +61,116 @@ public class ActualPost {
 				post.getDownVoteCount(), post.getCreationTs(), post.getPromoted(), post.getIsVoteMasked(),
 				post.getImageUrl(), post.getSourceDomain(), post.getSourceUrl(), post.getCommentsCount());
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Integer getNsfw() {
+		return nsfw;
+	}
+
+	public void setNsfw(Integer nsfw) {
+		this.nsfw = nsfw;
+	}
+
+	public Integer getUpVoteCount() {
+		return upVoteCount;
+	}
+
+	public void setUpVoteCount(Integer upVoteCount) {
+		this.upVoteCount = upVoteCount;
+	}
+
+	public Integer getDownVoteCount() {
+		return downVoteCount;
+	}
+
+	public void setDownVoteCount(Integer downVoteCount) {
+		this.downVoteCount = downVoteCount;
+	}
+
+	public Integer getCreationTs() {
+		return creationTs;
+	}
+
+	public void setCreationTs(Integer creationTs) {
+		this.creationTs = creationTs;
+	}
+
+	public Integer getPromoted() {
+		return promoted;
+	}
+
+	public void setPromoted(Integer promoted) {
+		this.promoted = promoted;
+	}
+
+	public Integer getIsVoteMasked() {
+		return isVoteMasked;
+	}
+
+	public void setIsVoteMasked(Integer isVoteMasked) {
+		this.isVoteMasked = isVoteMasked;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public String getSourceDomain() {
+		return sourceDomain;
+	}
+
+	public void setSourceDomain(String sourceDomain) {
+		this.sourceDomain = sourceDomain;
+	}
+
+	public String getSourceUrl() {
+		return sourceUrl;
+	}
+
+	public void setSourceUrl(String sourceUrl) {
+		this.sourceUrl = sourceUrl;
+	}
+
+	public Integer getCommentsCount() {
+		return commentsCount;
+	}
+
+	public void setCommentsCount(Integer commentsCount) {
+		this.commentsCount = commentsCount;
+	}
 }
