@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jsoup.Jsoup;
+import org.jsoup.helper.StringUtil;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.BasicJsonParser;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.gag.model.ActualPost;
@@ -22,8 +24,10 @@ import com.example.gag.model.Comment;
 import com.example.gag.model.Post;
 import com.example.gag.service.ActualPostService;
 import com.example.gag.service.CommentService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.stream.MalformedJsonException;
 
 @Component
 public class Scraper {
@@ -82,17 +86,19 @@ public class Scraper {
 		String secondPartUrl = postId;
 		String thirdPartUrl = "&count=10000000000&order=score&origin=https:%2F%2F9gag.com";
 		Gson gson = new Gson();
+		String comment = "";
 
 		try {
 			Document document = Jsoup.connect(firstPartUrl + secondPartUrl + thirdPartUrl).ignoreContentType(true)
 					.userAgent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)")
 					.ignoreHttpErrors(true).referrer("www.google.com").get();
 
-			String comment = document.body().wholeText();
+			comment = document.body().wholeText();
 			comment = comment.split("\"comments\":")[1];
 			comment = comment.substring(0, comment.length() - 2);
 
 			List<Object> comments = new ArrayList<>();
+
 			comments = gson.fromJson(comment, comments.getClass());
 
 			for (int i = 0; i < comments.size(); i++) {
@@ -103,9 +109,43 @@ public class Scraper {
 			return comments.size();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			comment = fixBrokenJson(comment);
+
+			List<Object> comments = new ArrayList<>();
+
+			comments = gson.fromJson(comment, comments.getClass());
+
+			for (int i = 0; i < comments.size(); i++) {
+				Comment com = gson.fromJson(gson.toJson(comments.get(i)), Comment.class);
+				commentService.save(com);
+			}
 		}
 
-		return 555555;
+		return 55555;
+	}
+
+	public String fixBrokenJson(String brokenJson) {
+
+		for (String thingie : brokenJson.split(":")) {
+			if (StringUtils.countOccurrencesOf(thingie, String.valueOf('"')) > 4) {
+				String oldThingie;
+
+				thingie = thingie.split(",\"")[0];
+				oldThingie = new String(thingie);
+				thingie = thingie.substring(1, thingie.length() - 1);
+				thingie = thingie.replace("\"", "\\\"");
+				thingie = '"' + thingie + '"';
+
+				brokenJson = brokenJson.replace(oldThingie, thingie);
+			}
+		}
+		
+		List<Object> comments = new ArrayList<>();
+		Gson gson = new Gson();
+		
+		comments = gson.fromJson(brokenJson, comments.getClass());
+		System.out.println(comments.toString());
+
+		return brokenJson;
 	}
 }

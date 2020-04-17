@@ -69,7 +69,7 @@ public class Comment {
 	SuppData SuppDataObject;
 
 	public Comment() {
-
+		super();
 	}
 
 	public Comment(String commentId, float status, String parent, String userId, String text, float timestamp,
@@ -358,6 +358,20 @@ public class Comment {
 
 	public void setSuppDataObject(SuppData suppDataObject) {
 		SuppDataObject = suppDataObject;
+	}
+
+	@Override
+	public String toString() {
+		return "Comment [commentId=" + commentId + ", status=" + status + ", parent=" + parent + ", userId=" + userId
+				+ ", text=" + text + ", timestamp=" + timestamp + ", MentionMappingObject=" + MentionMappingObject
+				+ ", EmbedMediaMetaObject=" + EmbedMediaMetaObject + ", type=" + type + ", threadId=" + threadId
+				+ ", media=" + media + ", permalink=" + permalink + ", level=" + level + ", children=" + children
+				+ ", orderKey=" + orderKey + ", isVoteMasked=" + isVoteMasked + ", mediaText=" + mediaText
+				+ ", richtext=" + richtext + ", UserObject=" + UserObject + ", likeCount=" + likeCount
+				+ ", dislikeCount=" + dislikeCount + ", coinCount=" + coinCount + ", IsLikeObject=" + IsLikeObject
+				+ ", section=" + section + ", isCollapsed=" + isCollapsed + ", isPinned=" + isPinned
+				+ ", childrenTotal=" + childrenTotal + ", hasNext=" + hasNext + ", isAnonymous=" + isAnonymous
+				+ ", isUrl=" + isUrl + ", SuppDataObject=" + SuppDataObject + "]";
 	}
 
 }
