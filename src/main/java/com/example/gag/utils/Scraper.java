@@ -84,9 +84,11 @@ public class Scraper {
 	public int getComments(String postId) throws IOException {
 		String firstPartUrl = "https://comment-cdn.9gag.com/v1/cacheable/comment-list.json?appId=a_dd8f2b7d304a10edaf6f29517ea0ca4100a43d1b&url=http:%2F%2F9gag.com%2Fgag%2F";
 		String secondPartUrl = postId;
-		String thirdPartUrl = "&count=10000000000&order=score&origin=https:%2F%2F9gag.com";
+		String fourthPartUrl = "";
+		String thirdPartUrl = "&count=10000000000&order=score&" + fourthPartUrl + "origin=https:%2F%2F9gag.com";;
 		Gson gson = new Gson();
 		String comment = "";
+		boolean hasNext = true;
 
 		try {
 			Document document = Jsoup.connect(firstPartUrl + secondPartUrl + thirdPartUrl).ignoreContentType(true)
@@ -94,6 +96,12 @@ public class Scraper {
 					.ignoreHttpErrors(true).referrer("www.google.com").get();
 
 			comment = document.body().wholeText();
+			String hasNextString = comment.split("\"hasNext\":")[1];
+			if(hasNextString.equals("true")) {
+				hasNext = true;
+			} else {
+				hasNext = false;
+			}
 			comment = comment.split("\"comments\":")[1];
 			comment = comment.substring(0, comment.length() - 2);
 
@@ -104,6 +112,13 @@ public class Scraper {
 			for (int i = 0; i < comments.size(); i++) {
 				Comment com = gson.fromJson(gson.toJson(comments.get(i)), Comment.class);
 				commentService.save(com);
+				if(i == comments.size()-1) {
+					fourthPartUrl = "ref=" + com.getOrderKey() + "&";
+				}
+			}
+
+			if(!hasNext) {
+				fourthPartUrl = "";
 			}
 
 			return comments.size();
