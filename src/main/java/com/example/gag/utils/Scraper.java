@@ -90,51 +90,54 @@ public class Scraper {
 		String comment = "";
 		boolean hasNext = true;
 
-		try {
-			Document document = Jsoup.connect(firstPartUrl + secondPartUrl + thirdPartUrl).ignoreContentType(true)
-					.userAgent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)")
-					.ignoreHttpErrors(true).referrer("www.google.com").get();
+		while(hasNext) {
+			try {
+				Document document = Jsoup.connect(firstPartUrl + secondPartUrl + thirdPartUrl).ignoreContentType(true)
+						.userAgent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)")
+						.ignoreHttpErrors(true).referrer("www.google.com").get();
 
-			comment = document.body().wholeText();
-			String hasNextString = comment.split("\"hasNext\":")[1];
-			if(hasNextString.equals("true")) {
-				hasNext = true;
-			} else {
-				hasNext = false;
-			}
-			comment = comment.split("\"comments\":")[1];
-			comment = comment.substring(0, comment.length() - 2);
+				comment = document.body().wholeText();
+				String hasNextString = comment.split("\"hasNext\":")[1];
+				if(hasNextString.equals("true")) {
+					hasNext = true;
+				} else {
+					hasNext = false;
+				}
+				comment = comment.split("\"comments\":")[1];
+				comment = comment.substring(0, comment.length() - 2);
 
-			List<Object> comments = new ArrayList<>();
+				List<Object> comments = new ArrayList<>();
 
-			comments = gson.fromJson(comment, comments.getClass());
+				comments = gson.fromJson(comment, comments.getClass());
 
-			for (int i = 0; i < comments.size(); i++) {
-				Comment com = gson.fromJson(gson.toJson(comments.get(i)), Comment.class);
-				commentService.save(com);
-				if(i == comments.size()-1) {
-					fourthPartUrl = "ref=" + com.getOrderKey() + "&";
+				for (int i = 0; i < comments.size(); i++) {
+					Comment com = gson.fromJson(gson.toJson(comments.get(i)), Comment.class);
+					commentService.save(com);
+					if(i == comments.size()-1) {
+						fourthPartUrl = "ref=" + com.getOrderKey() + "&";
+					}
+				}
+
+				if(!hasNext) {
+					fourthPartUrl = "";
+				}
+
+				return comments.size();
+
+			} catch (Exception e) {
+				comment = fixBrokenJson(comment);
+
+				List<Object> comments = new ArrayList<>();
+
+				comments = gson.fromJson(comment, comments.getClass());
+
+				for (int i = 0; i < comments.size(); i++) {
+					Comment com = gson.fromJson(gson.toJson(comments.get(i)), Comment.class);
+					commentService.save(com);
 				}
 			}
-
-			if(!hasNext) {
-				fourthPartUrl = "";
-			}
-
-			return comments.size();
-
-		} catch (Exception e) {
-			comment = fixBrokenJson(comment);
-
-			List<Object> comments = new ArrayList<>();
-
-			comments = gson.fromJson(comment, comments.getClass());
-
-			for (int i = 0; i < comments.size(); i++) {
-				Comment com = gson.fromJson(gson.toJson(comments.get(i)), Comment.class);
-				commentService.save(com);
-			}
 		}
+
 
 		return 55555;
 	}
