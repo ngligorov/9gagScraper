@@ -16,29 +16,48 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `post_tags`
+-- Table structure for table `comment`
 --
 
-DROP TABLE IF EXISTS `post_tags`;
+DROP TABLE IF EXISTS `comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `post_tags` (
-  `post_id` varchar(255) NOT NULL,
-  `tags_id` int(11) NOT NULL,
-  KEY `FKpoyg307ed2w6nbcthawvphds4` (`tags_id`),
-  KEY `FKmmtgl185ka210lj8kenewllt1` (`post_id`),
-  CONSTRAINT `FKmmtgl185ka210lj8kenewllt1` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`),
-  CONSTRAINT `FKpoyg307ed2w6nbcthawvphds4` FOREIGN KEY (`tags_id`) REFERENCES `tag` (`id`)
+CREATE TABLE `comment` (
+  `id` varchar(255) NOT NULL,
+  `children_total` float NOT NULL,
+  `coin_count` float NOT NULL,
+  `dislike_count` float NOT NULL,
+  `has_next` bit(1) NOT NULL,
+  `is_anonymous` float NOT NULL,
+  `is_collapsed` float NOT NULL,
+  `is_pinned` float NOT NULL,
+  `is_url` float NOT NULL,
+  `is_vote_masked` float NOT NULL,
+  `level` float NOT NULL,
+  `like_count` float NOT NULL,
+  `media_text` longtext,
+  `order_key` varchar(255) DEFAULT NULL,
+  `parent` varchar(255) DEFAULT NULL,
+  `permalink` varchar(255) DEFAULT NULL,
+  `richtext` longtext,
+  `section` varchar(255) DEFAULT NULL,
+  `status` float NOT NULL,
+  `text` longtext,
+  `thread_id` varchar(255) DEFAULT NULL,
+  `timestamp` float NOT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `user_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `post_tags`
+-- Dumping data for table `comment`
 --
 
-LOCK TABLES `post_tags` WRITE;
-/*!40000 ALTER TABLE `post_tags` DISABLE KEYS */;
-/*!40000 ALTER TABLE `post_tags` ENABLE KEYS */;
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +69,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-18 22:23:40
+-- Dump completed on 2020-04-18 22:23:39
