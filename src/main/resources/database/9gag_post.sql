@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
--- Host: localhost    Database: 9gag
+-- Host: 127.0.0.1    Database: 9gag
 -- ------------------------------------------------------
--- Server version	8.0.18
+-- Server version	8.0.19
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,21 +24,21 @@ DROP TABLE IF EXISTS `post`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post` (
   `id` varchar(255) NOT NULL,
-  `comments_count` int(11) DEFAULT NULL,
-  `creation_ts` int(11) DEFAULT NULL,
+  `comments_count` int DEFAULT NULL,
+  `creation_ts` int DEFAULT NULL,
   `description_html` varchar(255) DEFAULT NULL,
-  `down_vote_count` int(11) DEFAULT NULL,
+  `down_vote_count` int DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL,
-  `is_vote_masked` int(11) DEFAULT NULL,
-  `nsfw` int(11) DEFAULT NULL,
-  `promoted` int(11) DEFAULT NULL,
+  `is_vote_masked` int DEFAULT NULL,
+  `nsfw` int DEFAULT NULL,
+  `promoted` int DEFAULT NULL,
   `source_domain` varchar(255) DEFAULT NULL,
   `source_url` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
-  `up_vote_count` int(11) DEFAULT NULL,
+  `up_vote_count` int DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
-  `post_section_id` int(11) DEFAULT NULL,
+  `post_section_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKqn7k2u4ngm55bburfpkiie104` (`post_section_id`),
   CONSTRAINT `FKqn7k2u4ngm55bburfpkiie104` FOREIGN KEY (`post_section_id`) REFERENCES `post_section` (`id`)
@@ -63,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-18 22:23:40
+-- Dump completed on 2020-04-19 14:28:41

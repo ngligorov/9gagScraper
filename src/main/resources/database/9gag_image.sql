@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
--- Host: localhost    Database: 9gag
+-- Host: 127.0.0.1    Database: 9gag
 -- ------------------------------------------------------
--- Server version	8.0.18
+-- Server version	8.0.19
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,11 +23,11 @@ DROP TABLE IF EXISTS `image`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `image` (
-  `id` int(11) NOT NULL,
-  `height` int(11) DEFAULT NULL,
+  `id` int NOT NULL,
+  `height` int DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
   `webp_url` varchar(255) DEFAULT NULL,
-  `width` int(11) DEFAULT NULL,
+  `width` int DEFAULT NULL,
   `post_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKe2l07hc93u2bbjnl80meu3rn4` (`post_id`),
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-18 22:23:39
+-- Dump completed on 2020-04-19 14:28:41

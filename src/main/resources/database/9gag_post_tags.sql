@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
--- Host: localhost    Database: 9gag
+-- Host: 127.0.0.1    Database: 9gag
 -- ------------------------------------------------------
--- Server version	8.0.18
+-- Server version	8.0.19
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `post_tags`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post_tags` (
   `post_id` varchar(255) NOT NULL,
-  `tags_id` int(11) NOT NULL,
+  `tags_id` int NOT NULL,
   KEY `FKpoyg307ed2w6nbcthawvphds4` (`tags_id`),
   KEY `FKmmtgl185ka210lj8kenewllt1` (`post_id`),
   CONSTRAINT `FKmmtgl185ka210lj8kenewllt1` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`),
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-18 22:23:40
+-- Dump completed on 2020-04-19 14:28:41
