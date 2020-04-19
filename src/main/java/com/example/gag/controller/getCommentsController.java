@@ -44,18 +44,26 @@ public class getCommentsController {
 	@RequestMapping(value = "/continue", method = RequestMethod.GET, produces = "application/json")
 	private ResponseEntity<?> scrapeBodyContinue() throws IOException {
 
+		List<String> commentedPostIDs = new ArrayList<>();
 		List<String> uncommentedPostIDs = new ArrayList<>();
 
 		for (Comment comment : service.findAll()) {
 			String postId = comment.getPermalink().split("/")[comment.getPermalink().split("/").length - 1];
 			postId = postId.split("#")[0];
 
-			uncommentedPostIDs.add(postId);
+			if (!commentedPostIDs.contains(postId))
+				commentedPostIDs.add(postId);
 		}
 
-		for (ActualPost post : postService.findAll())
-			if (!uncommentedPostIDs.contains(post.getId()))
-				scraper.getComments(post.getId());
+		for(ActualPost post : postService.findAll())
+			if(!commentedPostIDs.contains(post.getId()))
+				uncommentedPostIDs.add(post.getId());
+
+//		System.out.println(uncommentedPostIDs.size());
+//		System.out.println(commentedPostIDs.size());
+//		
+		for(String postId : uncommentedPostIDs)
+			scraper.getComments(postId);
 
 		return ResponseEntity.ok("profi");
 	}
