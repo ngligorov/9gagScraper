@@ -42,7 +42,7 @@ public class Scraper {
 	CommentService commentService;
 
 	public List<Post> getPosts(String startUrl) throws IOException {
-		String firstPartUrl = "https://9gag.com/v1/group-posts/group/default/type/trending?";
+		String firstPartUrl = "https://9gag.com/v1/group-posts/group/default/type/hot?";
 		List<Post> actualPosts = new ArrayList<>();
 		String secondPartUrl = "";
 
@@ -73,7 +73,7 @@ public class Scraper {
 						imgUrl = imgUrl.split("\"")[1];
 
 						object.setImageUrl(imgUrl);
-						object.setSection("trending");						
+						object.setSection("hot");						
 						
 						service.save(new ActualPost(object));
 						actualPosts.add(object);
