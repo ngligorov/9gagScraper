@@ -42,7 +42,7 @@ public class Scraper {
 	CommentService commentService;
 
 	public List<Post> getPosts(String startUrl) throws IOException {
-		String firstPartUrl = "https://9gag.com/v1/group-posts/group/default/type/fresh?";
+		String firstPartUrl = "https://9gag.com/v1/group-posts/group/default/type/trending?";
 		List<Post> actualPosts = new ArrayList<>();
 		String secondPartUrl = "";
 
@@ -73,7 +73,8 @@ public class Scraper {
 						imgUrl = imgUrl.split("\"")[1];
 
 						object.setImageUrl(imgUrl);
-
+						object.setSection("trending");						
+						
 						service.save(new ActualPost(object));
 						actualPosts.add(object);
 					} catch (Exception e) {
@@ -137,7 +138,7 @@ public class Scraper {
 
 			} catch (Exception e) {
 //				System.out.println(comment);
-//				e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 

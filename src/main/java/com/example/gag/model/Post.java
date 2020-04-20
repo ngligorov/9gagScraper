@@ -35,6 +35,7 @@ public class Post {
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Tag> tags;
 	private String descriptionHtml;
+	private String section;
 
 	public Post() {
 
@@ -43,7 +44,7 @@ public class Post {
 	public Post(String id, String url, String title, String type, Integer nsfw, Integer upVoteCount,
 			Integer downVoteCount, Integer creationTs, Integer promoted, Integer isVoteMasked, String imageUrl,
 			String sourceDomain, String sourceUrl, Integer commentsCount, PostSection postSection, List<Tag> tags,
-			String descriptionHtml) {
+			String descriptionHtml, String section) {
 		super();
 		this.id = id;
 		this.url = url;
@@ -62,6 +63,7 @@ public class Post {
 		this.postSection = postSection;
 		this.tags = tags;
 		this.descriptionHtml = descriptionHtml;
+		this.section = section;
 	}
 
 	public String getId() {
@@ -200,13 +202,22 @@ public class Post {
 		this.descriptionHtml = descriptionHtml;
 	}
 
+	public String getSection() {
+		return section;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
+	}
+
 	@Override
 	public String toString() {
 		return "Post [id=" + id + ", url=" + url + ", title=" + title + ", type=" + type + ", nsfw=" + nsfw
 				+ ", upVoteCount=" + upVoteCount + ", downVoteCount=" + downVoteCount + ", creationTs=" + creationTs
 				+ ", promoted=" + promoted + ", isVoteMasked=" + isVoteMasked + ", imageUrl=" + imageUrl
 				+ ", sourceDomain=" + sourceDomain + ", sourceUrl=" + sourceUrl + ", commentsCount=" + commentsCount
-				+ ", postSection=" + postSection + ", tags=" + tags + ", descriptionHtml=" + descriptionHtml + "]";
+				+ ", postSection=" + postSection + ", tags=" + tags + ", descriptionHtml=" + descriptionHtml
+				+ ", section=" + section + "]";
 	}
 
 }

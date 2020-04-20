@@ -31,14 +31,22 @@ public class ActualPost {
 	private String sourceDomain;
 	private String sourceUrl;
 	private Integer commentsCount;
+	private String section;
 
 	public ActualPost() {
 
 	}
 
+	public ActualPost(Post post) {
+		this(post.getId(), post.getUrl(), post.getTitle(), post.getType(), post.getNsfw(), post.getUpVoteCount(),
+				post.getDownVoteCount(), post.getCreationTs(), post.getPromoted(), post.getIsVoteMasked(),
+				post.getImageUrl(), post.getSourceDomain(), post.getSourceUrl(), post.getCommentsCount(),
+				post.getSection());
+	}
+
 	public ActualPost(String id, String url, String title, String type, Integer nsfw, Integer upVoteCount,
 			Integer downVoteCount, Integer creationTs, Integer promoted, Integer isVoteMasked, String imageUrl,
-			String sourceDomain, String sourceUrl, Integer commentsCount) {
+			String sourceDomain, String sourceUrl, Integer commentsCount, String section) {
 		super();
 		this.id = id;
 		this.url = url;
@@ -54,12 +62,7 @@ public class ActualPost {
 		this.sourceDomain = sourceDomain;
 		this.sourceUrl = sourceUrl;
 		this.commentsCount = commentsCount;
-	}
-
-	public ActualPost(Post post) {
-		this(post.getId(), post.getUrl(), post.getTitle(), post.getType(), post.getNsfw(), post.getUpVoteCount(),
-				post.getDownVoteCount(), post.getCreationTs(), post.getPromoted(), post.getIsVoteMasked(),
-				post.getImageUrl(), post.getSourceDomain(), post.getSourceUrl(), post.getCommentsCount());
+		this.section = section;
 	}
 
 	public String getId() {
@@ -173,4 +176,13 @@ public class ActualPost {
 	public void setCommentsCount(Integer commentsCount) {
 		this.commentsCount = commentsCount;
 	}
+
+	public String getSection() {
+		return section;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
+	}
+
 }
