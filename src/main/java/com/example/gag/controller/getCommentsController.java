@@ -59,8 +59,8 @@ public class getCommentsController {
 			if(!commentedPostIDs.contains(post.getId()))
 				uncommentedPostIDs.add(post.getId());
 
-//		System.out.println(uncommentedPostIDs.size());
-//		System.out.println(commentedPostIDs.size());
+		System.out.println(uncommentedPostIDs.size());
+		System.out.println(commentedPostIDs.size());
 //		
 		for(String postId : uncommentedPostIDs)
 			scraper.getComments(postId);
