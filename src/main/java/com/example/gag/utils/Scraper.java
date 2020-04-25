@@ -98,7 +98,6 @@ public class Scraper {
 		String secondPartUrl = postId;
 		String fourthPartUrl = "";
 		String thirdPartUrl = "&count=10000000000&order=score&" + fourthPartUrl + "origin=https:%2F%2F9gag.com";
-		;
 		Gson gson = new Gson();
 		String comment = "";
 		boolean hasNext = true;
@@ -138,7 +137,7 @@ public class Scraper {
 
 			} catch (Exception e) {
 //				System.out.println(comment);
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 		}
 
