@@ -42,7 +42,7 @@ public class Scraper {
 	CommentService commentService;
 
 	public List<Post> getPosts(String startUrl) throws IOException {
-		String firstPartUrl = "https://9gag.com/v1/group-posts/group/default/type/hot?";
+		String firstPartUrl = "https://9gag.com/v1/group-posts/group/default/type/trending?";
 		List<Post> actualPosts = new ArrayList<>();
 		String secondPartUrl = "";
 
@@ -54,7 +54,7 @@ public class Scraper {
 						.userAgent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)")
 						.ignoreHttpErrors(true).referrer("www.google.com").get();
 				String post = document.body().wholeText();
-				System.out.println(post);
+//				System.out.println(post);
 				post = post.split("data")[1];
 				post = post.substring(11, post.length() - 1);
 				post = post.split("featuredAds")[0];
@@ -73,12 +73,12 @@ public class Scraper {
 						imgUrl = imgUrl.split("\"")[1];
 
 						object.setImageUrl(imgUrl);
-						object.setSection("hot");						
+						object.setSection("trending");						
 						
 						service.save(new ActualPost(object));
 						actualPosts.add(object);
 					} catch (Exception e) {
-						e.printStackTrace();
+//						e.printStackTrace();
 					}
 				}
 
@@ -86,7 +86,7 @@ public class Scraper {
 				secondPartUrl = nextCursor.split("\"")[1];
 //				System.out.println(secondPartUrl);
 			} catch (Exception e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 		}
 

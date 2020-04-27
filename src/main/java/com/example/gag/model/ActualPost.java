@@ -1,14 +1,17 @@
 package com.example.gag.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -19,6 +22,7 @@ public class ActualPost {
 	@Id
 	private String id;
 	private String url;
+	@Column(length = Integer.MAX_VALUE)
 	private String title;
 	private String type;
 	private Integer nsfw;
@@ -32,6 +36,8 @@ public class ActualPost {
 	private String sourceUrl;
 	private Integer commentsCount;
 	private String section;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Tag> tags = new ArrayList<>();
 
 	public ActualPost() {
 
@@ -41,12 +47,12 @@ public class ActualPost {
 		this(post.getId(), post.getUrl(), post.getTitle(), post.getType(), post.getNsfw(), post.getUpVoteCount(),
 				post.getDownVoteCount(), post.getCreationTs(), post.getPromoted(), post.getIsVoteMasked(),
 				post.getImageUrl(), post.getSourceDomain(), post.getSourceUrl(), post.getCommentsCount(),
-				post.getSection());
+				post.getSection(), post.getTags());
 	}
 
 	public ActualPost(String id, String url, String title, String type, Integer nsfw, Integer upVoteCount,
 			Integer downVoteCount, Integer creationTs, Integer promoted, Integer isVoteMasked, String imageUrl,
-			String sourceDomain, String sourceUrl, Integer commentsCount, String section) {
+			String sourceDomain, String sourceUrl, Integer commentsCount, String section, List<Tag> tags) {
 		super();
 		this.id = id;
 		this.url = url;
@@ -63,6 +69,7 @@ public class ActualPost {
 		this.sourceUrl = sourceUrl;
 		this.commentsCount = commentsCount;
 		this.section = section;
+		this.tags = tags;
 	}
 
 	public String getId() {
@@ -183,6 +190,14 @@ public class ActualPost {
 
 	public void setSection(String section) {
 		this.section = section;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 
 }
