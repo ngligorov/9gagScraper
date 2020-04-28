@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
 --
 -- Host: localhost    Database: 9gag
 -- ------------------------------------------------------
--- Server version	8.0.19
+-- Server version	8.0.18
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,29 +16,48 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `post_grade_grades`
+-- Table structure for table `comment`
 --
 
-DROP TABLE IF EXISTS `post_grade_grades`;
+DROP TABLE IF EXISTS `comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `post_grade_grades` (
-  `post_grade_id` bigint NOT NULL,
-  `grades_id` bigint NOT NULL,
-  UNIQUE KEY `UK_av5u2yiw91n6py9najocrr6wp` (`grades_id`),
-  KEY `FK5rjrqa8r13h58cl6fej1m09ds` (`post_grade_id`),
-  CONSTRAINT `FK5rjrqa8r13h58cl6fej1m09ds` FOREIGN KEY (`post_grade_id`) REFERENCES `post_grade` (`id`),
-  CONSTRAINT `FKp2w9kheiq0c7fftqswoa1b9rr` FOREIGN KEY (`grades_id`) REFERENCES `comment_grades` (`id`)
+CREATE TABLE `comment` (
+  `id` varchar(255) NOT NULL,
+  `children_total` float NOT NULL,
+  `coin_count` float NOT NULL,
+  `dislike_count` float NOT NULL,
+  `has_next` bit(1) NOT NULL,
+  `is_anonymous` float NOT NULL,
+  `is_collapsed` float NOT NULL,
+  `is_pinned` float NOT NULL,
+  `is_url` float NOT NULL,
+  `is_vote_masked` float NOT NULL,
+  `level` float NOT NULL,
+  `like_count` float NOT NULL,
+  `media_text` longtext,
+  `order_key` varchar(255) DEFAULT NULL,
+  `parent` varchar(255) DEFAULT NULL,
+  `permalink` varchar(255) DEFAULT NULL,
+  `richtext` longtext,
+  `section` varchar(255) DEFAULT NULL,
+  `status` float NOT NULL,
+  `text` longtext,
+  `thread_id` varchar(255) DEFAULT NULL,
+  `timestamp` float NOT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `user_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `post_grade_grades`
+-- Dumping data for table `comment`
 --
 
-LOCK TABLES `post_grade_grades` WRITE;
-/*!40000 ALTER TABLE `post_grade_grades` DISABLE KEYS */;
-/*!40000 ALTER TABLE `post_grade_grades` ENABLE KEYS */;
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +69,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-22 15:22:06
+-- Dump completed on 2020-04-28 13:17:18

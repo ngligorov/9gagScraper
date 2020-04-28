@@ -7,17 +7,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "image")
 public class Image {
 
-	@Id
 	private int id;
 	private Integer width;
 	private Integer height;
 	private String url;
 	private String webpUrl;
-	@ManyToOne
 	private Post post;
 
 	public Image() {

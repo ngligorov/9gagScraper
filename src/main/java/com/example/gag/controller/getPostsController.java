@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.gag.model.ActualPost;
 import com.example.gag.model.Post;
 import com.example.gag.service.ActualPostService;
-import com.example.gag.service.PostService;
 import com.example.gag.utils.Scraper;
 
 @RestController

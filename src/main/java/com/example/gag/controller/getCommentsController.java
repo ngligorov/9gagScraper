@@ -15,7 +15,6 @@ import com.example.gag.model.ActualPost;
 import com.example.gag.model.Comment;
 import com.example.gag.service.ActualPostService;
 import com.example.gag.service.CommentService;
-import com.example.gag.service.PostService;
 import com.example.gag.utils.Scraper;
 import com.google.gson.Gson;
 

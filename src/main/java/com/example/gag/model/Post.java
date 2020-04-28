@@ -11,11 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "post")
 public class Post {
 
-	@Id
 	private String id;
 	private String url;
 	private String title;
@@ -30,9 +27,7 @@ public class Post {
 	private String sourceDomain;
 	private String sourceUrl;
 	private Integer commentsCount;
-	@OneToOne(cascade = CascadeType.ALL)
 	private PostSection postSection;
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Tag> tags;
 	private String descriptionHtml;
 	private String section;
